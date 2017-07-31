@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Tool Install') {
       steps {
-        tool(name: 'maven', type: 'maven')
+        echo 'Tool Installation'
       }
     }
     stage('Checkout') {
