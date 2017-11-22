@@ -79,7 +79,23 @@ pipeline {
         echo 'MavenDeploy'
       }
     }
-    stage('Release') {
+    
+    stage('Prepare test enviromnet') {
+      steps {
+        echo 'Prepare Environment'
+      }
+    }
+    stage('Deploy to test environment') {
+      steps {
+        echo 'test env'
+      }
+    }
+    stage('Run Tests') {
+      steps {
+        echo 'System tests'
+      }
+    }
+  stage('Release') {
       steps {
         parallel(
           "Github Release Tag": {
@@ -99,26 +115,6 @@ pipeline {
             
           }
         )
-      }
-    }
-    stage('Prepare test enviromnet') {
-      steps {
-        echo 'Prepare Environment'
-      }
-    }
-    stage('Deploy to test environment') {
-      steps {
-        echo 'test env'
-      }
-    }
-    stage('Run Tests') {
-      steps {
-        echo 'System tests'
-      }
-    }
-    stage('Release to Maven Central/ Artifactory') {
-      steps {
-        echo 'Maven Central'
       }
     }
   }
