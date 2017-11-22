@@ -1,11 +1,6 @@
 pipeline {
   agent any
   stages {
-    stage('Tools Install') {
-      steps {
-        echo 'Tool Installation'
-      }
-    }
     stage('Checkout') {
       steps {
         echo 'Checkout'
@@ -34,7 +29,7 @@ pipeline {
             echo 'Jenkins file'
             
           },
-          "": {
+          "error": {
             echo 'Files'
             
           }
@@ -79,9 +74,51 @@ pipeline {
         )
       }
     }
-    stage('Maven Deploy to Maven Repository or Maven Central') {
+    stage('Maven Deploy to Artifactory') {
       steps {
         echo 'MavenDeploy'
+      }
+    }
+    stage('Release') {
+      steps {
+        parallel(
+          "Github Release Tag": {
+            echo 'Release'
+            
+          },
+          "Maven Release Prepare": {
+            echo 'Prepare'
+            
+          },
+          "Maven release Perform": {
+            echo 'Perform'
+            
+          },
+          "Release Stable Branch": {
+            echo 'Release Branch'
+            
+          }
+        )
+      }
+    }
+    stage('Prepare test enviromnet') {
+      steps {
+        echo 'Prepare Environment'
+      }
+    }
+    stage('Deploy to test environment') {
+      steps {
+        echo 'test env'
+      }
+    }
+    stage('Run Tests') {
+      steps {
+        echo 'System tests'
+      }
+    }
+    stage('Release to Maven Central/ Artifactory') {
+      steps {
+        echo 'Maven Central'
       }
     }
   }
