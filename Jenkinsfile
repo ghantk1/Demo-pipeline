@@ -76,26 +76,29 @@ pipeline {
     }
     stage('Maven Deploy to Artifactory') {
       steps {
-        echo 'MavenDeploy'
+        parallel(
+          "Maven Deploy to Artifactory": {
+            echo 'MavenDeploy'
+            
+          },
+          "Prepare Integration Test Environment": {
+            echo 'test environment'
+            
+          }
+        )
       }
     }
-    
-    stage('Prepare test enviromnet') {
-      steps {
-        echo 'Prepare Environment'
-      }
-    }
-    stage('Deploy to test environment') {
+    stage('Deploy to integration test environment') {
       steps {
         echo 'test env'
       }
     }
-    stage('Run Tests') {
+    stage('Run Integration Tests') {
       steps {
         echo 'System tests'
       }
     }
-  stage('Release') {
+    stage('Release') {
       steps {
         parallel(
           "Github Release Tag": {
@@ -109,12 +112,18 @@ pipeline {
           "Maven release Perform": {
             echo 'Perform'
             
-          },
-          "Release Stable Branch": {
-            echo 'Release Branch'
-            
           }
         )
+      }
+    }
+    stage('Release Stable Branch') {
+      steps {
+        echo 'Release Stable Branch'
+      }
+    }
+    stage('Maven Release Deploy') {
+      steps {
+        echo 'Maven Release deploy'
       }
     }
   }
