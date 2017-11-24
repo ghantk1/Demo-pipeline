@@ -29,7 +29,7 @@ pipeline {
             echo 'Jenkins file'
             
           },
-          "error": {
+          "Check core files": {
             echo 'Files'
             
           }
