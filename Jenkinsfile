@@ -36,7 +36,7 @@ pipeline {
         )
       }
     }
-    stage('Open Source Readiness Checks') {
+    stage('Scans and Checks') {
       steps {
         parallel(
           "Third Party Library Approvals": {
